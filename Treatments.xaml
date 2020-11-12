@@ -1,0 +1,54 @@
+﻿<Window x:Class="Betegek.Treatments"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Betegek"
+        xmlns:c="clr-namespace:Betegek.Converters"
+        mc:Ignorable="d"
+        Title="Treatments" Height="500" Width="550">
+    <Grid>
+        <Grid.Resources>
+            <c:AgeConverter x:Key="AgeConverter"/>
+            <c:TajConverter x:Key="TajConverter"/>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Beteg neve:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
+        <Label Content="{Binding Patient.Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1"/>
+        <Label Content="Életkor:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0"/>
+        <Label Content="{Binding Patient.DateOfBirth, Converter={StaticResource AgeConverter}}" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1"/>
+        <Label Content="TAJ szám:" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0"/>
+        <Label Content="{Binding Patient.Taj, Converter={StaticResource TajConverter}}" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1"/>
+        <Label Content="Régebbi kezelések:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0"/>
+        <ListBox Name="TreatmentsBox" ItemsSource="{Binding Patient.Treatments}" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding BNOCode}"/>
+                        <TextBlock Text="{Binding Note, StringFormat=Jegyzet: {0}}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Label Content="BNO kód:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="5" Grid.Column="0"/>
+        <ComboBox Name="BNOCodeBox" ItemsSource="{Binding BNOCodes}" SelectedIndex="0" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1"/>
+        <Label Content="Jegyzet:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="6" Grid.Column="0"/>
+        <TextBox Name="Note" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"/>
+        <Button Name="Save" Content="Mentés" Width="150" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Click="OnSave"/>
+    </Grid>
+</Window>
